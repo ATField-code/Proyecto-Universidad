@@ -731,6 +731,7 @@ digestivo = StringVar()
 genitourinario = StringVar()
 musculoesqueletico = StringVar()
 dermatologico = StringVar()
+#aqui va a ser el proximo cambio se implementara para mayor eficiencia
 
 cuadrorevisionsistema = tk.LabelFrame(frame12, text="REVISION POR SISTEMA", font=(bool)) #esto es para modificar el texto, aumento, negrita, ect
 cuadrorevisionsistema.grid(row=0, column=0, padx=10, pady=10)
