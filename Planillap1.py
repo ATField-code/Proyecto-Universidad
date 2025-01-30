@@ -131,14 +131,19 @@ contenedor.pack(fill=BOTH, expand=True)
 
 # Crear un Canvas
 canvas = tk.Canvas(contenedor)
-canvas.pack(side=LEFT, fill=BOTH, expand=True)
+canvas.pack(fill=BOTH, expand=True)
 
 # Crear una barra de desplazamiento vertical
 scrollbar = ttk.Scrollbar(contenedor, orient=VERTICAL, command=canvas.yview)
 scrollbar.pack(side=RIGHT, fill=Y)
 
+# Crear una barra de desplazamiento horizontal
+scrollbar_horizontal = ttk.Scrollbar(contenedor, orient=HORIZONTAL, command=canvas.xview)
+scrollbar_horizontal.pack(side=BOTTOM, fill=X)
+
 # Configurar el Canvas para usar la barra de desplazamiento
 canvas.configure(yscrollcommand=scrollbar.set)
+canvas.configure(xscrollcommand=scrollbar_horizontal.set)
 canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
 def on_mouse_wheel(event):
