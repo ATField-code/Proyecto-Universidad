@@ -83,6 +83,40 @@ def crear_tabla_con_encabezados_verticales(cuadrotiempo, encabezados, ancho_colu
         canvas.create_text(ancho_columna // 2, altura_columna // 2, text=encabezado, anchor="center", angle=90)
         canvas.pack()
 
+def crear_rows_revision_por_sistema(parent, text, variable, entry_variable, row):
+    """
+    Crea una fila en un grid layout con una etiqueta, dos radiobuttons y un campo de entrada.
+
+    Args:
+        parent (tk.Widget): El widget padre donde se colocarán los elementos.
+        text (str): El texto de la etiqueta.
+        variable (tk.IntVar): La variable asociada a los radiobuttons.
+        entry_variable (tk.StringVar): La variable asociada al campo de entrada.
+        row (int): La fila en la que se colocarán los elementos en el grid layout.
+
+    Ejemplo:
+        frameRevisionPorSistema = tk.LabelFrame(frame_contenido, text="REVISION POR SISTEMA", font=(bool))
+        frameRevisionPorSistema.grid(row=0, column=0, padx=10, pady=10)
+        
+        opcpielfaneras = tk.IntVar()
+        hipertencionarterial = tk.StringVar()
+        
+        crear_rows_revision_por_sistema(frameRevisionPorSistema, "PIEL Y FANERAS", opcpielfaneras, hipertencionarterial, 1)
+
+    Esta función crea una etiqueta, dos radiobuttons y un campo de entrada en la fila especificada del grid layout del widget padre.
+    """
+
+    label = Label(parent, text=text)
+    label.grid(row=row, column=0, sticky="w", padx=5, pady=2)
+    
+    radio1 = tk.Radiobutton(parent, text="", width=4, anchor="n", variable=variable, value=1)
+    radio1.grid(row=row, column=1, padx=5, pady=1)
+    
+    radio2 = tk.Radiobutton(parent, text="", width=4, anchor="n", variable=variable, value=2)
+    radio2.grid(row=row, column=2, padx=5, pady=1)
+    
+    entry = Entry(parent, textvariable=entry_variable, width=93)
+    entry.grid(row=row, column=3, padx=5, pady=2)
 
 ventana = tk.Tk()
 ventana.title("Planilla de registro MO")
@@ -731,6 +765,7 @@ digestivo = StringVar()
 genitourinario = StringVar()
 musculoesqueletico = StringVar()
 dermatologico = StringVar()
+#aqui va a ser el proximo cambio se implementara para mayor eficiencia
 
 cuadrorevisionsistema = tk.LabelFrame(frame12, text="REVISION POR SISTEMA", font=(bool)) #esto es para modificar el texto, aumento, negrita, ect
 cuadrorevisionsistema.grid(row=0, column=0, padx=10, pady=10)
@@ -1071,6 +1106,7 @@ opcion3 = tk.Radiobutton(cuadroexamenfisico, text="AMBIDIESTRO", width=20, ancho
 frame17= tk.Frame(frame_contenido)
 frame17.pack(anchor="w")
 
+## Opciones de los organos
 opcpielfaneras = IntVar()
 opccabeza = IntVar()
 opcojos= IntVar()
@@ -1129,213 +1165,54 @@ sensibilidad = StringVar()
 fuerzatonomuscular = StringVar()
 marcha = StringVar()
 
-cuadroorganos = tk.LabelFrame(frame17, text="REVISION POR SISTEMA", font=(bool)) #esto es para modificar el texto, aumento, negrita, ect
-cuadroorganos.grid(row=0, column=0, padx=10, pady=10)
+# LabelFrame para la revisión por sistema.
+frameRevisionPorSistema = tk.LabelFrame(frame17, text="REVISION POR SISTEMA", font=(bool)) #esto es para modificar el texto, aumento, negrita, ect
+frameRevisionPorSistema.grid(row=0, column=0, padx=10, pady=10)
 
-organolabe = Label(cuadroorganos, text="ORGANOS")
+organolabe = Label(frameRevisionPorSistema, text="ORGANOS")
 organolabe.grid(row=0, column=0, padx=2, pady=2)
-normallabel = Label(cuadroorganos, text="NORMAL")
+normallabel = Label(frameRevisionPorSistema, text="NORMAL")
 normallabel.grid(row=0, column=1, padx=2, pady=2)
-anormallabel = Label(cuadroorganos, text="ANORMAL")
+anormallabel = Label(frameRevisionPorSistema, text="ANORMAL")
 anormallabel.grid(row=0, column=2, padx=2, pady=2)
-hallazgolabel = Label(cuadroorganos, text="HALLASGO")
+hallazgolabel = Label(frameRevisionPorSistema, text="HALLAZGO")
 hallazgolabel.grid(row=0, column=3, padx=2, pady=2)
 
-opcpielfaneraslabe = Label(cuadroorganos, text="PIEL Y FANERAS")
-opcpielfaneraslabe.grid(row=1, column=0, sticky="w", padx=5, pady=2)
-opcpielfaneras1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcpielfaneras, value=1).grid(row=1, column=1, padx=5, pady=1)
-opcpielfaneras2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcpielfaneras, value=2).grid(row=1, column=2, padx=5, pady=1)
-opcpielfaneras_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcpielfaneras_entry.grid(row=1, column=3, padx=5, pady=2)
+# Variables para la revisión por sistema.
+revisionSistema = {
+    "PIEL Y FANERAS": (tk.IntVar(), tk.StringVar()),
+    "CABEZA": (tk.IntVar(), tk.StringVar()),
+    "OJOS": (tk.IntVar(), tk.StringVar()),
+    "CONJUNTIVAS OCULARES": (tk.IntVar(), tk.StringVar()),
+    "REFLEJOS PUPILARES": (tk.IntVar(), tk.StringVar()),
+    "OIDOS": (tk.IntVar(), tk.StringVar()),
+    "OTOSCOPIA": (tk.IntVar(), tk.StringVar()),
+    "NARIZ": (tk.IntVar(), tk.StringVar()),
+    "SENOS PARANASALES": (tk.IntVar(), tk.StringVar()),
+    "BOCA": (tk.IntVar(), tk.StringVar()),
+    "CUELLO": (tk.IntVar(), tk.StringVar()),
+    "TORAX": (tk.IntVar(), tk.StringVar()),
+    "MAMAS": (tk.IntVar(), tk.StringVar()),
+    "PULMONES": (tk.IntVar(), tk.StringVar()),
+    "CARDIOVASCULARES": (tk.IntVar(), tk.StringVar()),
+    "CIRCULATORIO": (tk.IntVar(), tk.StringVar()),
+    "ABDOMEN": (tk.IntVar(), tk.StringVar()),
+    "GENITALES EXTERNOS": (tk.IntVar(), tk.StringVar()),
+    "MIEMBROS SUPERIORES": (tk.IntVar(), tk.StringVar()),
+    "MIEMBROS INFERIORES": (tk.IntVar(), tk.StringVar()),
+    "COLUMNA VERTEBRAL": (tk.IntVar(), tk.StringVar()),
+    "NEUROLOGICO": (tk.IntVar(), tk.StringVar()),
+    "ESTADO MENTAL": (tk.IntVar(), tk.StringVar()),
+    "REFLEJOS TENDIOSOS": (tk.IntVar(), tk.StringVar()),
+    "MOTILIDAD": (tk.IntVar(), tk.StringVar()),
+    "SENSIBILIDAD": (tk.IntVar(), tk.StringVar()),
+    "FUERZA Y TONO MUSCULAR": (tk.IntVar(), tk.StringVar()),
+    "MARCHA": (tk.IntVar(), tk.StringVar()),
+}
 
-opccabezalabe = Label(cuadroorganos, text="CABEZA")
-opccabezalabe.grid(row=2, column=0, sticky="w", padx=5, pady=2)
-opccabeza1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccabeza, value=1).grid(row=2, column=1, padx=5, pady=1)
-opccabeza2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccabeza, value=2).grid(row=2, column=2, padx=5, pady=1)
-opccabeza_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opccabeza_entry.grid(row=2, column=3, padx=5, pady=2)
-
-opcojoslabe = Label(cuadroorganos, text="OJOS")
-opcojoslabe.grid(row=3, column=0, sticky="w", padx=5, pady=2)
-opcojos1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcojos, value=1).grid(row=3, column=1, padx=5, pady=1)
-opcojos2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcojos, value=2).grid(row=3, column=2, padx=5, pady=1)
-opcojos_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcojos_entry.grid(row=3, column=3, padx=5, pady=2)
-
-opcconjuntivasoculareslabe = Label(cuadroorganos, text="CONJUNTIVAS OCULARES")
-opcconjuntivasoculareslabe.grid(row=4, column=0, sticky="w", padx=5, pady=2)
-opcconjuntivasoculares1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcconjuntivasoculares, value=1).grid(row=4, column=1, padx=5, pady=1)
-opcconjuntivasoculares2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcconjuntivasoculares, value=2).grid(row=4, column=2, padx=5, pady=1)
-opcconjuntivasoculares_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcconjuntivasoculares_entry.grid(row=4, column=3, padx=5, pady=2)
-
-opcreflejopupilarlabe = Label(cuadroorganos, text="REFLEJOS PUPILARES")
-opcreflejopupilarlabe.grid(row=5, column=0, sticky="w", padx=5, pady=2)
-opcreflejopupilar1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcreflejopupilar, value=1).grid(row=5, column=1, padx=5, pady=1)
-opcreflejopupilar2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcreflejopupilar, value=2).grid(row=5, column=2, padx=5, pady=1)
-opcreflejopupilar_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcreflejopupilar_entry.grid(row=5, column=3, padx=5, pady=2)
-
-opcoidoslabe = Label(cuadroorganos, text="OIDOS")
-opcoidoslabe.grid(row=6, column=0, sticky="w", padx=5, pady=2)
-opcoidos1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcoidos, value=1).grid(row=6, column=1, padx=5, pady=1)
-opcoidos2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcoidos, value=2).grid(row=6, column=2, padx=5, pady=1)
-opcoidos_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcoidos_entry.grid(row=6, column=3, padx=5, pady=2)
-
-opcotoscopialabe = Label(cuadroorganos, text="OTOSCOPIA")
-opcotoscopialabe.grid(row=7, column=0, sticky="w", padx=5, pady=2)
-opcotoscopia1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcotoscopia, value=1).grid(row=7, column=1, padx=5, pady=1)
-opcotoscopia2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcotoscopia, value=2).grid(row=7, column=2, padx=5, pady=1)
-opcotoscopia_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcotoscopia_entry.grid(row=7, column=3, padx=5, pady=2)
-
-opcnarizlabe = Label(cuadroorganos, text="NARIZ")
-opcnarizlabe.grid(row=8, column=0, sticky="w", padx=5, pady=2)
-opcnariz1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcnariz, value=1).grid(row=8, column=1, padx=5, pady=1)
-opcnariz2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcnariz, value=2).grid(row=8, column=2, padx=5, pady=1)
-opcnariz_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcnariz_entry.grid(row=8, column=3, padx=5, pady=2)
-
-opcsenosparanasaleslabe = Label(cuadroorganos, text="SENOS PARANASALES")
-opcsenosparanasaleslabe.grid(row=9, column=0, sticky="w", padx=5, pady=2)
-opcsenosparanasales1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcsenosparanasales, value=1).grid(row=9, column=1, padx=5, pady=1)
-opcsenosparanasales2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcsenosparanasales, value=2).grid(row=9, column=2, padx=5, pady=1)
-opcsenosparanasales_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcsenosparanasales_entry.grid(row=9, column=3, padx=5, pady=2)
-
-opcbocalabe = Label(cuadroorganos, text="BOCA")
-opcbocalabe.grid(row=10, column=0, sticky="w", padx=5, pady=2)
-opcboca1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcboca, value=1).grid(row=10, column=1, padx=5, pady=1)
-opcboca2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcboca, value=2).grid(row=10, column=2, padx=5, pady=1)
-opcboca_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcboca_entry.grid(row=10, column=3, padx=5, pady=2)
-
-opccuellolabe = Label(cuadroorganos, text="CUELLO")
-opccuellolabe.grid(row=11, column=0, sticky="w", padx=5, pady=2)
-opccuello1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccuello, value=1).grid(row=11, column=1, padx=5, pady=1)
-opccuello2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccuello, value=2).grid(row=11, column=2, padx=5, pady=1)
-opccuello_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opccuello_entry.grid(row=11, column=3, padx=5, pady=2)
-
-opctorazlabe = Label(cuadroorganos, text="TORAX")
-opctorazlabe.grid(row=12, column=0, sticky="w", padx=5, pady=2)
-opctoraz1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opctoraz, value=1).grid(row=12, column=1, padx=5, pady=1)
-opctoraz2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opctoraz, value=2).grid(row=12, column=2, padx=5, pady=1)
-opctoraz_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opctoraz_entry.grid(row=12, column=3, padx=5, pady=2)
-
-opcmamaslabe = Label(cuadroorganos, text="MAMAS")
-opcmamaslabe.grid(row=13, column=0, sticky="w", padx=5, pady=2)
-opcmamas1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmamas, value=1).grid(row=13, column=1, padx=5, pady=1)
-opcmamas2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmamas, value=2).grid(row=13, column=2, padx=5, pady=1)
-opcmamas_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcmamas_entry.grid(row=13, column=3, padx=5, pady=2)
-
-opcpulmoneslabe = Label(cuadroorganos, text="PULMONES")
-opcpulmoneslabe.grid(row=14, column=0, sticky="w", padx=5, pady=2)
-opcpulmones1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcpulmones, value=1).grid(row=14, column=1, padx=5, pady=1)
-opcpulmones2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcpulmones, value=2).grid(row=14, column=2, padx=5, pady=1)
-opcpulmones_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcpulmones_entry.grid(row=14, column=3, padx=5, pady=2)
-
-opccardiovascularlabe = Label(cuadroorganos, text="CARDIOVASCULARES")
-opccardiovascularlabe.grid(row=15, column=0, sticky="w", padx=5, pady=2)
-opccardiovascular1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccardiovascular, value=1).grid(row=15, column=1, padx=5, pady=1)
-opccardiovascular2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccardiovascular, value=2).grid(row=15, column=2, padx=5, pady=1)
-opccardiovascular_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opccardiovascular_entry.grid(row=15, column=3, padx=5, pady=2)
-
-opccirculatoriolabe = Label(cuadroorganos, text="CIRCULATORIO")
-opccirculatoriolabe.grid(row=16, column=0, sticky="w", padx=5, pady=2)
-opccirculatorio1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccirculatorio, value=1).grid(row=16, column=1, padx=5, pady=1)
-opccirculatorio2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccirculatorio, value=2).grid(row=16, column=2, padx=5, pady=1)
-opccirculatorio_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opccirculatorio_entry.grid(row=16, column=3, padx=5, pady=2)
-
-opcabdomenlabe = Label(cuadroorganos, text="ABDOMEN")
-opcabdomenlabe.grid(row=17, column=0, sticky="w", padx=5, pady=2)
-opcabdomen1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcabdomen, value=1).grid(row=17, column=1, padx=5, pady=1)
-opcabdomen2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcabdomen, value=2).grid(row=17, column=2, padx=5, pady=1)
-opcabdomen_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcabdomen_entry.grid(row=17, column=3, padx=5, pady=2)
-
-opcgenitalesexternoslabe = Label(cuadroorganos, text="GENITALES EXTERNOS")
-opcgenitalesexternoslabe.grid(row=18, column=0, sticky="w", padx=5, pady=2)
-opcgenitalesexternos1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcgenitalesexternos, value=1).grid(row=18, column=1, padx=5, pady=1)
-opcgenitalesexternos2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcgenitalesexternos, value=2).grid(row=18, column=2, padx=5, pady=1)
-opcgenitalesexternos_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcgenitalesexternos_entry.grid(row=18, column=3, padx=5, pady=2)
-
-opcmiembrossuperioreslabe = Label(cuadroorganos, text="MIEBROS SUPERIORES")
-opcmiembrossuperioreslabe.grid(row=19, column=0, sticky="w", padx=5, pady=2)
-opcmiembrossuperiores1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmiembrossuperiores, value=1).grid(row=19, column=1, padx=5, pady=1)
-opcmiembrossuperiores2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmiembrossuperiores, value=2).grid(row=19, column=2, padx=5, pady=1)
-opcmiembrossuperiores_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcmiembrossuperiores_entry.grid(row=19, column=3, padx=5, pady=2)
-
-opcmiembrosinferioreslabe = Label(cuadroorganos, text="MIEMBROS INFERIORES")
-opcmiembrosinferioreslabe.grid(row=20, column=0, sticky="w", padx=5, pady=2)
-opcmiembrosinferiores1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmiembrosinferiores, value=1).grid(row=20, column=1, padx=5, pady=1)
-opcmiembrosinferiores2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmiembrosinferiores, value=2).grid(row=20, column=2, padx=5, pady=1)
-opcmiembrosinferiores_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcmiembrosinferiores_entry.grid(row=20, column=3, padx=5, pady=2)
-
-opccolumnavertebrallabe = Label(cuadroorganos, text="COLUMNA VERTEBRAL")
-opccolumnavertebrallabe.grid(row=21, column=0, sticky="w", padx=5, pady=2)
-opccolumnavertebral1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccolumnavertebral, value=1).grid(row=21, column=1, padx=5, pady=1)
-opccolumnavertebral2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opccolumnavertebral, value=2).grid(row=21, column=2, padx=5, pady=1)
-opccolumnavertebral_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opccolumnavertebral_entry.grid(row=21, column=3, padx=5, pady=2)
-
-opcneurologicolabe = Label(cuadroorganos, text="NEUROLOGICO")
-opcneurologicolabe.grid(row=22, column=0, sticky="w", padx=5, pady=2)
-opcneurologico1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcneurologico, value=1).grid(row=22, column=1, padx=5, pady=1)
-opcneurologico2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcneurologico, value=2).grid(row=22, column=2, padx=5, pady=1)
-opcneurologico_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcneurologico_entry.grid(row=22, column=3, padx=5, pady=2)
-
-opcestadomentallabe = Label(cuadroorganos, text="ESTADO MENTAL")
-opcestadomentallabe.grid(row=23, column=0, sticky="w", padx=5, pady=2)
-opcestadomental1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcestadomental, value=1).grid(row=23, column=1, padx=5, pady=1)
-opcestadomental2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcestadomental, value=2).grid(row=23, column=2, padx=5, pady=1)
-opcestadomental_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcestadomental_entry.grid(row=23, column=3, padx=5, pady=2)
-
-opcreflejostendinosaslabe = Label(cuadroorganos, text="REFLEJOS TENDINOSOS")
-opcreflejostendinosaslabe.grid(row=24, column=0, sticky="w", padx=5, pady=2)
-opcreflejostendinosas1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcreflejostendinosas, value=1).grid(row=24, column=1, padx=5, pady=1)
-opcreflejostendinosas2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcreflejostendinosas, value=2).grid(row=24, column=2, padx=5, pady=1)
-opcreflejostendinosas_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcreflejostendinosas_entry.grid(row=24, column=3, padx=5, pady=2)
-
-opcmotilidadlabe = Label(cuadroorganos, text="MOTILIDAD")
-opcmotilidadlabe.grid(row=25, column=0, sticky="w", padx=5, pady=2)
-opcmotilidad1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmotilidad, value=1).grid(row=25, column=1, padx=5, pady=1)
-opcmotilidad2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmotilidad, value=2).grid(row=25, column=2, padx=5, pady=1)
-opcmotilidad_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcmotilidad_entry.grid(row=25, column=3, padx=5, pady=2)
-
-opcsensibilidadlabe = Label(cuadroorganos, text="SENSIBILIDAD")
-opcsensibilidadlabe.grid(row=26, column=0, sticky="w", padx=5, pady=2)
-opcsensibilidad1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcsensibilidad, value=1).grid(row=26, column=1, padx=5, pady=1)
-opcsensibilidad2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcsensibilidad, value=2).grid(row=26, column=2, padx=5, pady=1)
-opcsensibilidad_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcsensibilidad_entry.grid(row=26, column=3, padx=5, pady=2)
-
-opcfuerzatonomuscularlabe = Label(cuadroorganos, text="FUERZA Y TONO MUSCULAR")
-opcfuerzatonomuscularlabe.grid(row=27, column=0, sticky="w", padx=5, pady=2)
-opcfuerzatonomuscular1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcfuerzatonomuscular, value=1).grid(row=27, column=1, padx=5, pady=1)
-opcfuerzatonomuscular2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcfuerzatonomuscular, value=2).grid(row=27, column=2, padx=5, pady=1)
-opcfuerzatonomuscular_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcfuerzatonomuscular_entry.grid(row=27, column=3, padx=5, pady=2)
-
-opcmarchalabe = Label(cuadroorganos, text="MARCHA")
-opcmarchalabe.grid(row=28, column=0, sticky="w", padx=5, pady=2)
-opcmarcha1 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmarcha, value=1).grid(row=28, column=1, padx=5, pady=1)
-opcmarcha2 = tk.Radiobutton(cuadroorganos, text="", width=4, anchor="n", variable=opcmarcha, value=2).grid(row=28, column=2, padx=5, pady=1)
-opcmarcha_entry = Entry(cuadroorganos, textvariable=hipertencionarterial, width=93)
-opcmarcha_entry.grid(row=28, column=3, padx=5, pady=2)
+# Crear las filas usando la función crear_rows_revision_por_sistema
+for i, (text, (var1, var2)) in enumerate(revisionSistema.items(), start=1):
+    crear_rows_revision_por_sistema(frameRevisionPorSistema, text, var1, var2, i)
 
 frame17 = tk.Frame(frame_contenido)
 frame17.pack(anchor="w")
