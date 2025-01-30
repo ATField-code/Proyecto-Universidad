@@ -147,7 +147,10 @@ canvas.configure(xscrollcommand=scrollbar_horizontal.set)
 canvas.bind('<Configure>', lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
 def on_mouse_wheel(event):
-    canvas.yview_scroll(int(-1*(event.delta/120)), "units")
+    if event.state & 0x0001:  # Shift key is pressed
+        canvas.xview_scroll(int(-1*(event.delta/120)), "units")
+    else:
+        canvas.yview_scroll(int(-1*(event.delta/120)), "units")
 
 canvas.bind_all("<MouseWheel>", on_mouse_wheel)
 
