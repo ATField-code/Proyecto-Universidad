@@ -131,7 +131,7 @@ contenedor.pack(fill=BOTH, expand=True)
 
 # Crear un Canvas
 canvas = tk.Canvas(contenedor)
-canvas.pack(fill=BOTH, expand=True)
+canvas.pack(side=TOP, fill=BOTH, expand=True)
 
 # Crear una barra de desplazamiento vertical
 scrollbar = ttk.Scrollbar(contenedor, orient=VERTICAL, command=canvas.yview)
